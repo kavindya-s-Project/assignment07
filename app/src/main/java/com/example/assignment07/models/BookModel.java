@@ -1,16 +1,16 @@
 package com.example.assignment07.models;
 
 public class BookModel {
-    private String id;
+    private int id;
     private String title;
     private String publisher;
 
     public BookModel() {
     }
 
-    public BookModel(String id, String title, String publisher) {
-        this.id = id;
+    public BookModel(String title, int id, String publisher) {
         this.title = title;
+        this.id = id;
         this.publisher = publisher;
     }
 
@@ -19,11 +19,11 @@ public class BookModel {
         this.publisher = publisher;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

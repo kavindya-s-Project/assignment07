@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.example.assignment07.DBHandler;
 import com.example.assignment07.R;
 import com.example.assignment07.models.BookModel;
+import com.example.assignment07.pages.admin.LibraryAdmin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,7 @@ public class Books extends AppCompatActivity {
         setContentView(R.layout.activity_books);
         context = this;
 
-        DBHandler dbHandler = new DBHandler(context);
+        dbHandler = new DBHandler(context);
         admin = findViewById(R.id.admin);
         bookList = findViewById(R.id.bookList);
         bookCount = findViewById(R.id.bookCount);
@@ -45,15 +47,14 @@ public class Books extends AppCompatActivity {
 
         //get book counts from the table
         int countBooks = dbHandler.countBooks();
-        bookCount.setText("You have "+countBooks+"books");
+        bookCount.setText("You have "+countBooks+" books");
 
         admin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context,MaintainBook.class));
+                startActivity(new Intent(context, LibraryAdmin.class));
             }
         });
-
 
     }
 }

@@ -9,10 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Assignment07">
-        <activity android:name=".pages.MaintainBook"></activity>
+        <activity android:name=".pages.admin.LibraryAdmin"></activity>
+        <activity android:name=".pages.membership.AddMembership" />
+        <activity android:name=".pages.membership.MembershipSignUp" />
+        <activity android:name=".pages.MaintainBook" />
         <activity android:name=".pages.UserAccount" />
         <activity android:name=".pages.LendingDetails" />
-        <activity android:name=".pages.Membership" />
+        <activity android:name=".pages.membership.Membership" />
         <activity android:name=".pages.Books" />
         <activity android:name=".MainPage" />
         <activity

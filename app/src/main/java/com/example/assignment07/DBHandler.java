@@ -23,6 +23,8 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String AUTHOR_TABLE_NAME = "author";
     private static final String BOOK_COPY_TABLE_NAME = "copies_of_books";
     private static final String BOOK_LENDING_TABLE_NAME = "lending_dates";
+//members' login table
+    private static final String LOGIN_TABLE = "login";
 
 // define book table
     private static final String TITLE = "title", ID = "id", PUBLISHER = "publisher";
@@ -42,6 +44,8 @@ public class DBHandler extends SQLiteOpenHelper {
 //    define lending table
     private static final String LEND_ACCESS_NUM = "access_no", LEND_BRANCH_ID = "branch_id", LEND_CARD_NO= "card_no",
             OUT_DATE = "out_date", DUE_DATE = "due_date", RETURNED_DATE = "returned_date";
+//define login table
+    private static final String USERNAME = "userName", PASSWORD = "password";
 
 
     public DBHandler(Context context) {
@@ -56,7 +60,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 +TITLE +" TEXT,"
                 +ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +PUBLISHER+" TEXT"
-                +");";
+                +")";
         db.execSQL(BOOK_TABLE_CREATE_QUERY);
 
 //        create publisher table
@@ -65,7 +69,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 +NAME+ " TEXT PRIMARY KEY,"
                 +PUBLISHER_ADDRESS +"TEXT,"
                 +PUBLISHER_PHONE+" TEXT"
-                +");";
+                +")";
         db.execSQL(PUBLISHER_TABLE_CREATE_QUERY);
 
 //        create branch table
@@ -74,7 +78,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 +BRANCH_ID+" TEXT PRIMARY KEY,"
                 +BRANCH_NAME+ " TEXT,"
                 +BRANCH_ADDRESS +" TEXT"
-                +");";
+                +")";
         db.execSQL(BRANCH_TABLE_CREATE_QUERY);
 
 //        create member table
@@ -85,7 +89,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 +MEMBER_ADDRESS +" TEXT,"
                 +MEMBER_PHONE+" TEXT,"
                 +UNPAID_DUE+" INTEGER"
-                +");";
+                +")";
         db.execSQL(MEMBER_TABLE_CREATE_QUERY);
 
 //        create author table
@@ -96,7 +100,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 +"FOREIGN KEY "+ "(" +BOOK_ID+ ")"
                 +"REFERENCES "
                 +BOOK_TABLE_NAME+"(" +ID+ ")"
-                +");";
+                +")";
         db.execSQL(AUTHOR_TABLE_CREATE_QUERY);
 
 //        create copy books table
@@ -105,12 +109,13 @@ public class DBHandler extends SQLiteOpenHelper {
                 +COPY_ID+" TEXT,"
                 +COPY_BRANCH+" TEXT PRIMARY KEY,"
                 +ACCESS_NO+" TEXT,"
-                +"FOREIGN KEY "+ "(" +BRANCH_ID+ ")"
-                +"REFERENCES "
+                +"FOREIGN KEY"+"(" +COPY_BRANCH+ ")"
+                +" REFERENCES "
                 +BRANCH_TABLE_NAME+"(" +BRANCH_ID+ ")"
-                +");";
+                +")";
         db.execSQL(BOOK_COPY_TABLE_CREATE_QUERY);
 
+        //        create lending books table
         String BOOK_LENDING_TABLE_CREATE_QUERY = "CREATE TABLE "+BOOK_LENDING_TABLE_NAME+
                 "("
                 +LEND_ACCESS_NUM+" TEXT,"
@@ -122,8 +127,16 @@ public class DBHandler extends SQLiteOpenHelper {
                 +"FOREIGN KEY "+ "(" +CARD_NO+ ")"
                 +"REFERENCES "
                 +MEMBER_TABLE_NAME+"(" +CARD_NO+ ")"
-                +");";
+                +")";
         db.execSQL(BOOK_LENDING_TABLE_CREATE_QUERY);
+
+//create member login table
+        String LOGIN_TABLE_CREATE_QUERY = "CREATE TABLE "+LOGIN_TABLE+
+                "("
+                +USERNAME + " TEXT PRIMARY KEY,"
+                +PASSWORD + " TEXT"
+                +")";
+        db.execSQL(LOGIN_TABLE_CREATE_QUERY);
     }
 
 
@@ -138,6 +151,7 @@ public class DBHandler extends SQLiteOpenHelper {
         String DROP_AUTHOR_TABLE_QUERY = "DROP TABLE IF EXISTS "+ AUTHOR_TABLE_NAME;
         String DROP_COPY_BOOK_TABLE_QUERY = "DROP TABLE IF EXISTS "+ BOOK_COPY_TABLE_NAME;
         String DROP_BOOK_LEND_TABLE_QUERY = "DROP TABLE IF EXISTS "+ BOOK_LENDING_TABLE_NAME;
+        String DROP_LOGIN_TABLE_QUERY = "DROP TABLE IF EXISTS " + LOGIN_TABLE;
 
         // Create tables again
         db.execSQL(DROP_BOOK_TABLE_QUERY);
@@ -147,6 +161,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(DROP_AUTHOR_TABLE_QUERY);
         db.execSQL(DROP_COPY_BOOK_TABLE_QUERY);
         db.execSQL(DROP_BOOK_LEND_TABLE_QUERY);
+        db.execSQL(DROP_LOGIN_TABLE_QUERY);
 
         onCreate(db);
     }
@@ -180,7 +195,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public List<BookModel> getAllBooks(){
 
         List<BookModel> bookModels = new ArrayList();
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM "+BOOK_TABLE_NAME;
 
         Cursor cursor = db.rawQuery(query,null);
@@ -191,7 +206,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 BookModel bookModel = new BookModel();
                 // mmgby6hh
                 bookModel.setTitle(cursor.getString(0));
-                bookModel.setId(cursor.getString(1));
+                bookModel.setId(cursor.getInt(1));
                 bookModel.setPublisher(cursor.getString(2));
 
                 //toDos [obj,objs,asas,asa]
@@ -221,7 +236,7 @@ public class DBHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
             bookModel = new BookModel(
                     cursor.getString(0),
-                    cursor.getString(1),
+                    cursor.getInt(1),
                     cursor.getString(2)
             );
             return bookModel;
@@ -245,4 +260,56 @@ public class DBHandler extends SQLiteOpenHelper {
         db.close();
         return status;
     }
+
+
+// username & password handling
+    public Boolean insertData(String username, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("username", username);
+        contentValues.put("password", password);
+        long result = db.insert(LOGIN_TABLE, null,contentValues);
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //check username
+    public Boolean checkUsername (String username) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("Select * from login where username = ?",
+                new String[]{username});
+        if (cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //check username and password
+    public Boolean checkUsernameAndPassword(String username, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("Select * from login where username = ? and password = ?",
+                new String[]{username,password});
+        if (cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //check admin username and password
+    public Boolean checkAdminUsernameAndPassword(String username, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("Select login where username = 'Admin' and password = '1234'",
+                new String[]{username,password});
+        if (cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

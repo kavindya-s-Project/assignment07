@@ -40,10 +40,10 @@ public class MaintainBook extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String bookTitle = editTextTitle.getText().toString();
+                int bookId = Integer.parseInt(editTextId.getText().toString());
                 String bookPublisher = editTextPublisher.getText().toString();
-                String bookId = editTextId.getText().toString();
 
-                BookModel bookModel = new BookModel(bookTitle,bookPublisher,bookId);
+                BookModel bookModel = new BookModel(bookTitle,bookId,bookPublisher);
                 dbHandler.addBook(bookModel);
 
                 startActivity(new Intent(context,Books.class));
@@ -51,26 +51,34 @@ public class MaintainBook extends AppCompatActivity {
         });
 
         //edit book
-        final String id = getIntent().getStringExtra("id");
+       /*final String id = getIntent().getStringExtra("id");
         BookModel bookModel = dbHandler.getSingleBook(Integer.parseInt(id));
 
         editTextTitle.setText(bookModel.getTitle());
+//        editTextId.setText(bookModel.getId());
         editTextPublisher.setText(bookModel.getPublisher());
-        editTextId.setText(bookModel.getId());
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String bookTitle = editTextTitle.getText().toString();
+//                int bookId = Integer.parseInt(editTextId.getText().toString());
                 String bookPublisher = editTextPublisher.getText().toString();
-                String bookId = editTextId.getText().toString();
 
-                BookModel bookModel1 = new BookModel(bookTitle,bookPublisher,bookId);
+
+                BookModel bookModel1 = new BookModel(bookTitle, bookPublisher);
                 int state = dbHandler.updateSingleBook(bookModel);
                 System.out.println(state);
                 startActivity(new Intent(context, Books.class));
             }
         });
+
+        removeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });*/
 
     }
 }

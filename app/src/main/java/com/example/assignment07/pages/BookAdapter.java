@@ -35,13 +35,13 @@ public class BookAdapter extends ArrayAdapter<BookModel> {
         View row = inflater.inflate(resource,parent,false);
 
         TextView title = row.findViewById(R.id.title);
-        TextView bookId = row.findViewById(R.id.bookId);
         TextView publisher = row.findViewById(R.id.publisher);
+        TextView bookId = row.findViewById(R.id.bookId);
 
         BookModel bookModel = bookModels.get(position);
         title.setText(bookModel.getTitle());
-        bookId.setText(bookModel.getId());
         publisher.setText(bookModel.getPublisher());
+        bookId.setText(bookModel.getId());
 
         return row;
     }

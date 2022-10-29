@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.example.assignment07.pages.Books;
 import com.example.assignment07.pages.LendingDetails;
-import com.example.assignment07.pages.Membership;
+import com.example.assignment07.pages.membership.Membership;
 import com.example.assignment07.pages.UserAccount;
 
 public class MainPage extends AppCompatActivity {
