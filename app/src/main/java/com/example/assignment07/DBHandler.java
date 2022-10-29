@@ -88,7 +88,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 +MEMBER_NAME+ " TEXT,"
                 +MEMBER_ADDRESS +" TEXT,"
                 +MEMBER_PHONE+" TEXT,"
-                +UNPAID_DUE+" INTEGER"
+                +UNPAID_DUE+" TEXT"
                 +")";
         db.execSQL(MEMBER_TABLE_CREATE_QUERY);
 
@@ -311,5 +311,31 @@ public class DBHandler extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public Boolean insertuserdata(String name, String address, String Cnum, String unpaid )
+    {
+        SQLiteDatabase DB = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MEMBER_NAME, name);
+        contentValues.put(MEMBER_ADDRESS, address);
+        contentValues.put(MEMBER_PHONE, Cnum);
+        contentValues.put(UNPAID_DUE, unpaid);
+        long result = DB.insert(MEMBER_TABLE_NAME, null, contentValues);
+        if(result==-1)
+        {
+            return  false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    public Cursor getMemberData()
+    {
+        SQLiteDatabase DB = this.getWritableDatabase();
+        Cursor cursor  = DB.rawQuery("Select * from member", null);
+        return cursor;
+    }
+
 
 }

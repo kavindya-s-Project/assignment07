@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Assignment07">
-        <activity android:name=".pages.admin.LibraryAdmin"></activity>
+        <activity android:name=".pages.membership.MemberList"></activity>
+        <activity android:name=".pages.admin.LibraryAdmin" />
         <activity android:name=".pages.membership.AddMembership" />
         <activity android:name=".pages.membership.MembershipSignUp" />
         <activity android:name=".pages.MaintainBook" />
