@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.assignment07.pages.Books;
+import com.example.assignment07.pages.books.Books;
 import com.example.assignment07.pages.LendingDetails;
 import com.example.assignment07.pages.membership.Membership;
 import com.example.assignment07.pages.UserAccount;
+import com.example.assignment07.pages.membership.MembershipSignUp;
 
 public class MainPage extends AppCompatActivity {
 
@@ -71,7 +72,7 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void userDetails() {
-        Intent intent = new Intent(this, UserAccount.class);
+        Intent intent = new Intent(this, MembershipSignUp.class);
         startActivity(intent);
     }
 }

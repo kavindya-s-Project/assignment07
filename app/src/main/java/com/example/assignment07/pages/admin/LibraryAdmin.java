@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.example.assignment07.DBHandler;
 import com.example.assignment07.R;
-import com.example.assignment07.pages.MaintainBook;
+import com.example.assignment07.pages.books.MaintainBook;
 
 public class LibraryAdmin extends AppCompatActivity {
 
@@ -40,7 +40,7 @@ public class LibraryAdmin extends AppCompatActivity {
                     Toast.makeText(LibraryAdmin.this, "Please fill all the fields",
                             Toast.LENGTH_SHORT).show();
                 }
-                if (user.equals("Admin") || pass.equals("1234")) {
+                if (user.equals("Admin") && pass.equals("1234")) {
                     Toast.makeText(LibraryAdmin.this, "Sign in successfully",
                             Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), MaintainBook.class);

@@ -5,16 +5,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/book_background"
     android:orientation="vertical"
-    android:layout_marginTop="10dp"
-    android:layout_marginHorizontal="20dp"
     tools:context=".MainPage">
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
-        android:layout_height="106dp"
-        app:srcCompat="@drawable/elibrary2_370x112" />
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/public_library" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="100dp">
 
     <Button
         android:id="@+id/booksBtn"
@@ -22,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="5dp"
+        android:background="@drawable/rounded_button"
         android:text="Books" />
 
     <Button
@@ -29,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
+        android:background="@drawable/rounded_button"
         android:text="Membership" />
 
     <Button
@@ -36,6 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
+        android:background="@drawable/rounded_button"
         android:text="Lending Details" />
 
     <Button
@@ -43,6 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="5dp"
+        android:background="@drawable/rounded_button"
         android:text="User Account" />
-
+</LinearLayout>
 </LinearLayout>
